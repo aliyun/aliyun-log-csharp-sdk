@@ -1,0 +1,167 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{D730B9A1-387F-429A-BCF0-7BAA9E501BE1}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Aliyun.Api.LOG</RootNamespace>
+    <AssemblyName>LOGSDK</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\bin\net35\Debug\</OutputPath>
+    <BaseIntermediateOutputPath>obj\net35\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;DEBUG;SLS_SDK_35</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <DocumentationFile>..\bin\net35\Debug\LOGSDK.xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\bin\net35\Release\</OutputPath>
+    <BaseIntermediateOutputPath>obj\net35\</BaseIntermediateOutputPath>
+    <DefineConstants>TRACE;SLS_SDK_35</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\bin\net35\Release\LOGSDK.xml</DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Google.ProtocolBuffers, Version=2.4.1.521, Culture=neutral, PublicKeyToken=55f7125234beb589, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParties\protobuf\net35\Google.ProtocolBuffers.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.ProtocolBuffers.Serialization, Version=2.4.1.521, Culture=neutral, PublicKeyToken=55f7125234beb589, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParties\protobuf\net35\Google.ProtocolBuffers.Serialization.dll</HintPath>
+    </Reference>
+    <Reference Include="LZ4Sharp">
+      <HintPath>..\3rdParties\lz4\net35\LZ4Sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParties\Json60r3\Bin\Net35\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="zlibnet, Version=1.3.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\3rdParties\zlib\net35\zlibnet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Common\Authentication\HmacSHA1Signature.cs" />
+    <Compile Include="Common\Authentication\IRequestSigner.cs" />
+    <Compile Include="Common\Authentication\ServiceCredentials.cs" />
+    <Compile Include="Common\Authentication\ServiceSignature.cs" />
+    <Compile Include="Common\Communication\ExecutionContext.cs" />
+    <Compile Include="Common\Communication\HttpMethod.cs" />
+    <Compile Include="Common\Communication\IServiceClient.cs" />
+    <Compile Include="Common\Communication\ServiceClient.cs" />
+    <Compile Include="Common\Communication\ServiceClientImpl.cs" />
+    <Compile Include="Common\Communication\ServiceMessage.cs" />
+    <Compile Include="Common\Communication\ServiceRequest.cs" />
+    <Compile Include="Common\Communication\ServiceResponse.cs" />
+    <Compile Include="Common\Handlers\IResponseHandler.cs" />
+    <Compile Include="Common\Handlers\ResponseHandler.cs" />
+    <Compile Include="Common\Utilities\AsyncResult.cs" />
+    <Compile Include="Common\Utilities\DateUtils.cs" />
+    <Compile Include="Common\Utilities\EnumUtils.cs" />
+    <Compile Include="Common\Utilities\HttpHeaders.cs" />
+    <Compile Include="Common\Utilities\HttpUtils.cs" />
+    <Compile Include="Common\Utilities\IOUtils.cs" />
+    <Compile Include="Common\Utilities\StringValueAttribute.cs" />
+    <Compile Include="Data\Histogram.cs" />
+    <Compile Include="Data\LogContent.cs" />
+    <Compile Include="Data\QueriedLog.cs" />
+    <Compile Include="Proto\LogGroup.cs" />
+    <Compile Include="Data\LogItem.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Request\BatchGetLogsRequest.cs" />
+    <Compile Include="Request\GetCursorRequest.cs" />
+    <Compile Include="Request\GetHistogramsRequest.cs" />
+    <Compile Include="Request\GetLogsRequest.cs" />
+    <Compile Include="Request\ListLogstoresRequest.cs" />
+    <Compile Include="Request\ListShardsRequest.cs" />
+    <Compile Include="Request\ListTopicsRequest.cs" />
+    <Compile Include="Request\LogStoreRequest.cs" />
+    <Compile Include="Request\PutLogsRequest.cs" />
+    <Compile Include="Request\Request.cs" />
+    <Compile Include="Response\BatchGetLogsResponse.cs" />
+    <Compile Include="Response\GetCursorResponse.cs" />
+    <Compile Include="Response\GetHistogramsResponse.cs" />
+    <Compile Include="Response\GetLogsResponse.cs" />
+    <Compile Include="Response\ListLogstoresResponse.cs" />
+    <Compile Include="Response\ListShardsResponse.cs" />
+    <Compile Include="Response\ListTopicsResponse.cs" />
+    <Compile Include="Response\PutLogsResponse.cs" />
+    <Compile Include="Response\Response.cs" />
+    <Compile Include="sample\LoghubSample.cs" />
+    <Compile Include="Utilities\ClientTools.cs" />
+    <Compile Include="Utilities\ClientConfiguration.cs" />
+    <Compile Include="Utilities\IpUtils.cs" />
+    <Compile Include="Utilities\Consts.cs" />
+    <Compile Include="Utilities\Lz4DecoderStream.cs" />
+    <Compile Include="Utilities\RequestSigner.cs" />
+    <Compile Include="Client.cs" />
+    <Compile Include="Exception.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Proto\LogGroup.proto" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy "$(ProjectDir)..\3rdParties\zlib\net35\zlib32.dll" "$(TargetDir)"
+copy "$(ProjectDir)..\3rdParties\zlib\net35\zlib64.dll" "$(TargetDir)"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

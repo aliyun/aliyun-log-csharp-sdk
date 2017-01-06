@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLSSDK40", "SLSSDK\SLSSDK40.csproj", "{4DBAE4C0-1B9A-4BD0-A9D3-8029AE319287}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLSSDK40Test", "SLSSDK40Test\SLSSDK40Test.csproj", "{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x86 = Debug|x86
+		Generate|Any CPU = Generate|Any CPU
+		Generate|x86 = Generate|x86
+		Release|Any CPU = Release|Any CPU
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4DBAE4C0-1B9A-4BD0-A9D3-8029AE319287}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4DBAE4C0-1B9A-4BD0-A9D3-8029AE319287}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4DBAE4C0-1B9A-4BD0-A9D3-8029AE319287}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{4DBAE4C0-1B9A-4BD0-A9D3-8029AE319287}.Generate|Any CPU.ActiveCfg = Release|Any CPU
+		{4DBAE4C0-1B9A-4BD0-A9D3-8029AE319287}.Generate|Any CPU.Build.0 = Release|Any CPU
+		{4DBAE4C0-1B9A-4BD0-A9D3-8029AE319287}.Generate|x86.ActiveCfg = Release|Any CPU
+		{4DBAE4C0-1B9A-4BD0-A9D3-8029AE319287}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4DBAE4C0-1B9A-4BD0-A9D3-8029AE319287}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4DBAE4C0-1B9A-4BD0-A9D3-8029AE319287}.Release|x86.ActiveCfg = Release|Any CPU
+		{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}.Generate|Any CPU.ActiveCfg = Release|Any CPU
+		{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}.Generate|Any CPU.Build.0 = Release|Any CPU
+		{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}.Generate|x86.ActiveCfg = Release|Any CPU
+		{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
