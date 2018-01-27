@@ -14,7 +14,7 @@ using System.Reflection;
 using Aliyun.Api.LOG;
 using Aliyun.Api.LOG.Common.Utilities;
 using Aliyun.Api.LOG.Utilities;
-using System.Threading;
+
 namespace Aliyun.Api.LOG.Common.Communication
 {
     /// <summary>
@@ -235,14 +235,14 @@ namespace Aliyun.Api.LOG.Common.Communication
         protected override ServiceResponse SendCore(ServiceRequest serviceRequest,
                                                     ExecutionContext context)
         {
-            Random rnd = new Random();
             try
             {
-                HttpWebRequest request = HttpFactory.CreateWebRequest(serviceRequest, Configuration);
+                serviceRequest.HttpRequest = HttpFactory.CreateWebRequest(serviceRequest, Configuration);
 #if(!__UT_TEST_0EC173788C65DD08DA60575219707632__)
-                SetRequestContent(request, serviceRequest);
+                SetRequestContent(serviceRequest.HttpRequest, serviceRequest);
 #endif
-                return SendMethod(request);
+                
+                return SendMethod(serviceRequest.HttpRequest);
             }
             catch (WebException ex)
             {
@@ -268,25 +268,31 @@ namespace Aliyun.Api.LOG.Common.Communication
 
             // Write data to the request stream.
             long userSetContentLength = -1;
-            if (serviceRequest.Headers.ContainsKey(HttpHeaders.ContentLength))
+            if (serviceRequest.Headers.ContainsKey(Aliyun.Api.LOG.Common.Utilities.HttpHeaders.ContentLength))
             {
-                userSetContentLength = long.Parse(serviceRequest.Headers[HttpHeaders.ContentLength]);
+                userSetContentLength = long.Parse(serviceRequest.Headers[Aliyun.Api.LOG.Common.Utilities.HttpHeaders.ContentLength]);
             }
             
             long streamLength =  data.Length - data.Position;
             webRequest.ContentLength = (userSetContentLength >= 0 && userSetContentLength <= streamLength) ?
             userSetContentLength : streamLength;
 
-            //webRequest.
-            //webRequest.KeepAlive = true;
+            webRequest.KeepAlive = false;
+            webRequest.ServicePoint.ConnectionLeaseTimeout = 5000;
+            webRequest.ServicePoint.MaxIdleTime = 5000;
             //webRequest.ReadWriteTimeout = 100000000;
-            //webRequest.ServicePoint.ConnectionLimit = 100000;
-            //webRequest.Timeout = Configuration
+            webRequest.ServicePoint.ConnectionLimit = 1000;
+            webRequest.ServicePoint.Expect100Continue = false;
+            //webRequest.ServicePoint.CloseConnectionGroup();
             using (var requestStream = webRequest.GetRequestStream())
             {
                 data.WriteTo(requestStream, webRequest.ContentLength);
                 data.Seek(0, SeekOrigin.Begin);
+                requestStream.Flush();
+                requestStream.Close();
             }
+            data.Close();
+            data.Dispose();
         }
 
         #endregion
