@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using Aliyun.Api.SLS.Response;
 
 namespace Aliyun.Api.LOG
 {
@@ -142,92 +141,98 @@ namespace Aliyun.Api.LOG
         }
         public GetCursorResponse GetCursor(GetCursorRequest request)
         {
-            ServiceRequest sReq = new ServiceRequest();
-            sReq.Method = HttpMethod.Get;
-            sReq.Endpoint = BuildReqEndpoint(request);
-
-            sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES 
-                + LogConsts.RESOURCE_SEPARATOR 
-                + request.Logstore 
-                + LogConsts.RESOURCE_SHARDS 
-                + LogConsts.RESOURCE_SEPARATOR 
-                + request.Shard;
-
-            FillCommonHeaders(sReq);
-            FillCommonParameters(sReq);
-
-            request.AddSpecHeadersTo(sReq.Headers);
-            request.AddSpecParamsTo(sReq.Parameters);
-
-            ExecutionContext context = new ExecutionContext();
-            context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
-            context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
-
-            using (ServiceResponse response = serviceClient.Send(sReq, context))
+            using (ServiceRequest sReq = new ServiceRequest())
             {
-                LogClientTools.ResponseErrorCheck(response, context.Credentials);
-                JObject body = LogClientTools.ParserResponseToJObject(response.Content);
-                GetCursorResponse getCursorResp = new GetCursorResponse(response.Headers, body.GetValue("cursor").ToString());
-                return getCursorResp;
+                sReq.Method = HttpMethod.Get;
+                sReq.Endpoint = BuildReqEndpoint(request);
+
+                sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES
+                    + LogConsts.RESOURCE_SEPARATOR
+                    + request.Logstore
+                    + LogConsts.RESOURCE_SHARDS
+                    + LogConsts.RESOURCE_SEPARATOR
+                    + request.Shard;
+
+                FillCommonHeaders(sReq);
+                FillCommonParameters(sReq);
+
+                request.AddSpecHeadersTo(sReq.Headers);
+                request.AddSpecParamsTo(sReq.Parameters);
+
+                ExecutionContext context = new ExecutionContext();
+                context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
+                context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
+
+                using (ServiceResponse response = serviceClient.Send(sReq, context))
+                {
+                    LogClientTools.ResponseErrorCheck(response, context.Credentials);
+                    JObject body = LogClientTools.ParserResponseToJObject(response.Content);
+                    GetCursorResponse getCursorResp = new GetCursorResponse(response.Headers, body.GetValue("cursor").ToString());
+                    return getCursorResp;
+                }
             }
         }
         public ListShardsResponse ListShards(ListShardsRequest request)
         {
-            ServiceRequest sReq = new ServiceRequest();
-            sReq.Method = HttpMethod.Get;
-            sReq.Endpoint = BuildReqEndpoint(request);
-
-            sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES
-                + LogConsts.RESOURCE_SEPARATOR
-                + request.Logstore
-                + LogConsts.RESOURCE_SHARDS ;
-
-            FillCommonHeaders(sReq);
-            FillCommonParameters(sReq);
-
-            request.AddSpecHeadersTo(sReq.Headers);
-            request.AddSpecParamsTo(sReq.Parameters);
-
-            ExecutionContext context = new ExecutionContext();
-            context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
-            context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
-
-            using (ServiceResponse response = serviceClient.Send(sReq, context))
+            using (ServiceRequest sReq = new ServiceRequest())
             {
-                LogClientTools.ResponseErrorCheck(response, context.Credentials);
-                JArray body = LogClientTools.ParserResponseToJArray(response.Content);
-                ListShardsResponse listShardsResp = new ListShardsResponse(response.Headers, body);
-                return listShardsResp;
+                sReq.Method = HttpMethod.Get;
+                sReq.Endpoint = BuildReqEndpoint(request);
+
+                sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES
+                    + LogConsts.RESOURCE_SEPARATOR
+                    + request.Logstore
+                    + LogConsts.RESOURCE_SHARDS;
+
+                FillCommonHeaders(sReq);
+                FillCommonParameters(sReq);
+
+                request.AddSpecHeadersTo(sReq.Headers);
+                request.AddSpecParamsTo(sReq.Parameters);
+
+                ExecutionContext context = new ExecutionContext();
+                context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
+                context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
+
+                using (ServiceResponse response = serviceClient.Send(sReq, context))
+                {
+                    LogClientTools.ResponseErrorCheck(response, context.Credentials);
+                    JArray body = LogClientTools.ParserResponseToJArray(response.Content);
+                    ListShardsResponse listShardsResp = new ListShardsResponse(response.Headers, body);
+                    return listShardsResp;
+                }
             }
         }
         public BatchGetLogsResponse BatchGetLogs(BatchGetLogsRequest request)
         {
-            ServiceRequest sReq = new ServiceRequest();
-            sReq.Method = HttpMethod.Get;
-            sReq.Endpoint = BuildReqEndpoint(request);
-
-            sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES
-                + LogConsts.RESOURCE_SEPARATOR
-                + request.Logstore
-                + LogConsts.RESOURCE_SHARDS
-                + LogConsts.RESOURCE_SEPARATOR
-                + request.Shard;
-
-            FillCommonHeaders(sReq);
-            FillCommonParameters(sReq);
-
-            request.AddSpecHeadersTo(sReq.Headers);
-            request.AddSpecParamsTo(sReq.Parameters);
-
-            ExecutionContext context = new ExecutionContext();
-            context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
-            context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
-
-            using (ServiceResponse response = serviceClient.Send(sReq, context))
+            using (ServiceRequest sReq = new ServiceRequest())
             {
-                LogClientTools.ResponseErrorCheck(response, context.Credentials);
-                BatchGetLogsResponse batchGetLogsResp = new BatchGetLogsResponse(response.Headers, response.Content);
-                return batchGetLogsResp;
+                sReq.Method = HttpMethod.Get;
+                sReq.Endpoint = BuildReqEndpoint(request);
+
+                sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES
+                    + LogConsts.RESOURCE_SEPARATOR
+                    + request.Logstore
+                    + LogConsts.RESOURCE_SHARDS
+                    + LogConsts.RESOURCE_SEPARATOR
+                    + request.Shard;
+
+                FillCommonHeaders(sReq);
+                FillCommonParameters(sReq);
+
+                request.AddSpecHeadersTo(sReq.Headers);
+                request.AddSpecParamsTo(sReq.Parameters);
+
+                ExecutionContext context = new ExecutionContext();
+                context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
+                context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
+
+                using (ServiceResponse response = serviceClient.Send(sReq, context))
+                {
+                    LogClientTools.ResponseErrorCheck(response, context.Credentials);
+                    BatchGetLogsResponse batchGetLogsResp = new BatchGetLogsResponse(response.Headers, response.Content);
+                    return batchGetLogsResp;
+                }
             }
         }
         /// <summary>
@@ -238,24 +243,26 @@ namespace Aliyun.Api.LOG
         /// <returns>The response of list log logstores</returns>
         public ListLogstoresResponse ListLogstores(ListLogstoresRequest request)
         {
-            ServiceRequest sReq = new ServiceRequest();
-            sReq.Method = HttpMethod.Get;
-            sReq.Endpoint = BuildReqEndpoint(request);
-            sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES;
-
-            FillCommonHeaders(sReq);
-            FillCommonParameters(sReq);
-
-            ExecutionContext context = new ExecutionContext();
-            context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
-            context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
-
-            using (ServiceResponse response = serviceClient.Send(sReq, context))
+            using (ServiceRequest sReq = new ServiceRequest())
             {
-                LogClientTools.ResponseErrorCheck(response, context.Credentials);
-                JObject body = LogClientTools.ParserResponseToJObject(response.Content);
-                ListLogstoresResponse res = new ListLogstoresResponse(response.Headers, body);
-                return res;
+                sReq.Method = HttpMethod.Get;
+                sReq.Endpoint = BuildReqEndpoint(request);
+                sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES;
+
+                FillCommonHeaders(sReq);
+                FillCommonParameters(sReq);
+
+                ExecutionContext context = new ExecutionContext();
+                context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
+                context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
+
+                using (ServiceResponse response = serviceClient.Send(sReq, context))
+                {
+                    LogClientTools.ResponseErrorCheck(response, context.Credentials);
+                    JObject body = LogClientTools.ParserResponseToJObject(response.Content);
+                    ListLogstoresResponse res = new ListLogstoresResponse(response.Headers, body);
+                    return res;
+                }
             }
         }
      
@@ -303,34 +310,37 @@ namespace Aliyun.Api.LOG
                 throw new LogException("InvalidLogSize", "logItems' length exceeds maximum limitation： " + LogConsts.LIMIT_LOG_COUNT + " lines.");
             else if(logGroup.SerializedSize > LogConsts.LIMIT_LOG_SIZE)
                 throw new LogException("InvalidLogSize", "logItems' size exceeds maximum limitation: " + LogConsts.LIMIT_LOG_SIZE + " byte.");
-            ServiceRequest sReq = new ServiceRequest();
-            sReq.Method = HttpMethod.Post;
-            sReq.Endpoint = BuildReqEndpoint(request);
-
-            //use empty string to replace Logstore if not set by user explicitly
-            string logstore = request.IsSetLogstore() ? request.Logstore : String.Empty;
-            sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES + LogConsts.RESOURCE_SEPARATOR + logstore;
-
-            FillCommonHeaders(sReq);
-            FillCommonParameters(sReq);
-            sReq.Headers.Add(LogConsts.NAME_HEADER_CONTENTTYPE, LogConsts.PBVALUE_HEADER_CONTENTTYPE);
-            byte[] logBytes = logGroup.ToByteArray();
-            sReq.Headers[LogConsts.NAME_HEADER_BODYRAWSIZE] = logBytes.Length.ToString();
-            sReq.Headers.Add(LogConsts.NAME_HEADER_COMPRESSTYPE, LogConsts.VALUE_HEADER_COMPRESSTYPE_LZ4);
-            logBytes = LogClientTools.CompressToLz4(logBytes);
-            sReq.Headers.Add(LogConsts.NAME_HEADER_MD5, LogClientTools.GetMd5Value(logBytes));
-            sReq.Content = new MemoryStream(logBytes);
-
-            ExecutionContext context = new ExecutionContext();
-            context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Post);
-            context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
-                
-            using (ServiceResponse response = serviceClient.Send(sReq, context))
+            using (ServiceRequest sReq = new ServiceRequest())
             {
-                LogClientTools.ResponseErrorCheck(response, context.Credentials);
-                PutLogsResponse putLogResp = new PutLogsResponse(response.Headers);
-                return putLogResp;
+                sReq.Method = HttpMethod.Post;
+                sReq.Endpoint = BuildReqEndpoint(request);
+
+                //use empty string to replace Logstore if not set by user explicitly
+                string logstore = request.IsSetLogstore() ? request.Logstore : String.Empty;
+                sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES + LogConsts.RESOURCE_SEPARATOR + logstore;
+
+                FillCommonHeaders(sReq);
+                FillCommonParameters(sReq);
+                sReq.Headers.Add(LogConsts.NAME_HEADER_CONTENTTYPE, LogConsts.PBVALUE_HEADER_CONTENTTYPE);
+                byte[] logBytes = logGroup.ToByteArray();
+                sReq.Headers[LogConsts.NAME_HEADER_BODYRAWSIZE] = logBytes.Length.ToString();
+                sReq.Headers.Add(LogConsts.NAME_HEADER_COMPRESSTYPE, LogConsts.VALUE_HEADER_COMPRESSTYPE_LZ4);
+                logBytes = LogClientTools.CompressToLz4(logBytes);
+                sReq.Headers.Add(LogConsts.NAME_HEADER_MD5, LogClientTools.GetMd5Value(logBytes));
+                sReq.Content = new MemoryStream(logBytes);
+
+                ExecutionContext context = new ExecutionContext();
+                context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Post);
+                context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
+
+                using (ServiceResponse response = serviceClient.Send(sReq, context))
+                {
+                    LogClientTools.ResponseErrorCheck(response, context.Credentials);
+                    PutLogsResponse putLogResp = new PutLogsResponse(response.Headers);
+                    return putLogResp;
+                }
             }
+           
         }
 
         /// <summary>
@@ -341,35 +351,37 @@ namespace Aliyun.Api.LOG
         /// <returns>The List topics response</returns>
         public ListTopicsResponse ListTopics(ListTopicsRequest request)
         {
-            ServiceRequest sReq = new ServiceRequest();
-            sReq.Method = HttpMethod.Get;
-            sReq.Endpoint = BuildReqEndpoint(request);
-
-            //use empty string to replace Logstore if not set by user explicitly
-            string logstore = request.IsSetLogstore() ? request.Logstore : String.Empty;
-            sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES + LogConsts.RESOURCE_SEPARATOR + logstore;
-
-            FillCommonHeaders(sReq);
-            FillCommonParameters(sReq);
-
-            sReq.Parameters.Add(LogConsts.PARAMETER_TYPE, LogConsts.RESOURCE_TOPIC);
-
-            if (request.IsSetToken())
-                sReq.Parameters.Add(LogConsts.PARAMETER_TOKEN, request.Token);
-
-            if (request.IsSetLines())
-                sReq.Parameters.Add(LogConsts.PARAMETER_LINES, request.Lines.ToString());
-
-            ExecutionContext context = new ExecutionContext();
-            context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
-            context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
-
-            using (ServiceResponse response = serviceClient.Send(sReq, context))
+            using (ServiceRequest sReq = new ServiceRequest())
             {
-                LogClientTools.ResponseErrorCheck(response, context.Credentials);
-                JArray body = LogClientTools.ParserResponseToJArray(response.Content);
-                ListTopicsResponse res = new ListTopicsResponse(response.Headers, body);
-                return res;
+                sReq.Method = HttpMethod.Get;
+                sReq.Endpoint = BuildReqEndpoint(request);
+
+                //use empty string to replace Logstore if not set by user explicitly
+                string logstore = request.IsSetLogstore() ? request.Logstore : String.Empty;
+                sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES + LogConsts.RESOURCE_SEPARATOR + logstore;
+
+                FillCommonHeaders(sReq);
+                FillCommonParameters(sReq);
+
+                sReq.Parameters.Add(LogConsts.PARAMETER_TYPE, LogConsts.RESOURCE_TOPIC);
+
+                if (request.IsSetToken())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_TOKEN, request.Token);
+
+                if (request.IsSetLines())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_LINES, request.Lines.ToString());
+
+                ExecutionContext context = new ExecutionContext();
+                context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
+                context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
+
+                using (ServiceResponse response = serviceClient.Send(sReq, context))
+                {
+                    LogClientTools.ResponseErrorCheck(response, context.Credentials);
+                    JArray body = LogClientTools.ParserResponseToJArray(response.Content);
+                    ListTopicsResponse res = new ListTopicsResponse(response.Headers, body);
+                    return res;
+                }
             }
         }
 
@@ -382,50 +394,52 @@ namespace Aliyun.Api.LOG
         /// <returns>The get Logs response</returns>
         public GetLogsResponse GetLogs(GetLogsRequest request)
         {
-            ServiceRequest sReq = new ServiceRequest();
-            sReq.Method = HttpMethod.Get;
-            sReq.Endpoint = BuildReqEndpoint(request);
-
-            //use empty string to replace Logstore if not set by user explicitly
-            string logstore = request.IsSetLogstore() ? request.Logstore : String.Empty;
-            sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES + LogConsts.RESOURCE_SEPARATOR + logstore;
-
-            FillCommonHeaders(sReq);
-            FillCommonParameters(sReq);
-
-            sReq.Parameters.Add(LogConsts.PARAMETER_TYPE, LogConsts.VALUE_TYPE_CONTENT);
-
-            if (request.IsSetTopic())
-                sReq.Parameters.Add(LogConsts.PARAMETER_TOPIC, request.Topic);
-
-            if (request.IsSetFrom())
-                sReq.Parameters.Add(LogConsts.PARAMETER_FROM, request.From.ToString());
-
-            if (request.IsSetTo())
-                sReq.Parameters.Add(LogConsts.PARAMETER_TO, request.To.ToString());
-
-            if (request.IsSetQuery())
-                sReq.Parameters.Add(LogConsts.PARAMETER_QUERY, request.Query);
-
-            if (request.IsSetLines())
-                sReq.Parameters.Add(LogConsts.PARAMETER_LINES, request.Lines.ToString());
-
-            if (request.IsSetOffset())
-                sReq.Parameters.Add(LogConsts.PARAMETER_OFFSET, request.Offset.ToString());
-
-            if (request.IsSetReverse())
-                sReq.Parameters.Add(LogConsts.PARAMETER_REVERSE, request.Reverse.ToString());
-
-            ExecutionContext context = new ExecutionContext();
-            context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
-            context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
-
-            using (ServiceResponse response = serviceClient.Send(sReq, context))
+            using (ServiceRequest sReq = new ServiceRequest())
             {
-                LogClientTools.ResponseErrorCheck(response, context.Credentials);
-                JArray body = LogClientTools.ParserResponseToJArray(response.Content);
-                GetLogsResponse res = new GetLogsResponse(response.Headers, body);
-                return res;
+                sReq.Method = HttpMethod.Get;
+                sReq.Endpoint = BuildReqEndpoint(request);
+
+                //use empty string to replace Logstore if not set by user explicitly
+                string logstore = request.IsSetLogstore() ? request.Logstore : String.Empty;
+                sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES + LogConsts.RESOURCE_SEPARATOR + logstore;
+
+                FillCommonHeaders(sReq);
+                FillCommonParameters(sReq);
+
+                sReq.Parameters.Add(LogConsts.PARAMETER_TYPE, LogConsts.VALUE_TYPE_CONTENT);
+
+                if (request.IsSetTopic())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_TOPIC, request.Topic);
+
+                if (request.IsSetFrom())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_FROM, request.From.ToString());
+
+                if (request.IsSetTo())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_TO, request.To.ToString());
+
+                if (request.IsSetQuery())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_QUERY, request.Query);
+
+                if (request.IsSetLines())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_LINES, request.Lines.ToString());
+
+                if (request.IsSetOffset())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_OFFSET, request.Offset.ToString());
+
+                if (request.IsSetReverse())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_REVERSE, request.Reverse.ToString());
+
+                ExecutionContext context = new ExecutionContext();
+                context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
+                context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
+
+                using (ServiceResponse response = serviceClient.Send(sReq, context))
+                {
+                    LogClientTools.ResponseErrorCheck(response, context.Credentials);
+                    JArray body = LogClientTools.ParserResponseToJArray(response.Content);
+                    GetLogsResponse res = new GetLogsResponse(response.Headers, body);
+                    return res;
+                }
             }
         }
 
@@ -439,41 +453,43 @@ namespace Aliyun.Api.LOG
         /// <returns>The get histograms response</returns>
         public GetHistogramsResponse GetHistograms(GetHistogramsRequest request)
         {
-            ServiceRequest sReq = new ServiceRequest();
-            sReq.Method = HttpMethod.Get;
-            sReq.Endpoint = BuildReqEndpoint(request);
-
-            //use empty string to replace Logstore if not set by user explicitly
-            string logstore = request.IsSetLogstore() ? request.Logstore : String.Empty;
-            sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES + LogConsts.RESOURCE_SEPARATOR + logstore;
-
-            FillCommonHeaders(sReq);
-            FillCommonParameters(sReq);
-
-            sReq.Parameters.Add(LogConsts.PARAMETER_TYPE, LogConsts.VALUE_TYPE_STATUS);
-
-            if (request.IsSetTopic())
-                sReq.Parameters.Add(LogConsts.PARAMETER_TOPIC, request.Topic);
-
-            if (request.IsSetFrom())
-                sReq.Parameters.Add(LogConsts.PARAMETER_FROM, request.From.ToString());
-
-            if (request.IsSetTo())
-                sReq.Parameters.Add(LogConsts.PARAMETER_TO, request.To.ToString());
-
-            if (request.IsSetQuery())
-                sReq.Parameters.Add(LogConsts.PARAMETER_QUERY, request.Query);
-
-            ExecutionContext context = new ExecutionContext();
-            context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
-            context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
-
-            using (ServiceResponse response = serviceClient.Send(sReq, context))
+            using (ServiceRequest sReq = new ServiceRequest())
             {
-                LogClientTools.ResponseErrorCheck(response, context.Credentials);
-                JArray body = LogClientTools.ParserResponseToJArray(response.Content);
-                GetHistogramsResponse res = new GetHistogramsResponse(response.Headers, body);
-                return res;
+                sReq.Method = HttpMethod.Get;
+                sReq.Endpoint = BuildReqEndpoint(request);
+
+                //use empty string to replace Logstore if not set by user explicitly
+                string logstore = request.IsSetLogstore() ? request.Logstore : String.Empty;
+                sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES + LogConsts.RESOURCE_SEPARATOR + logstore;
+
+                FillCommonHeaders(sReq);
+                FillCommonParameters(sReq);
+
+                sReq.Parameters.Add(LogConsts.PARAMETER_TYPE, LogConsts.VALUE_TYPE_STATUS);
+
+                if (request.IsSetTopic())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_TOPIC, request.Topic);
+
+                if (request.IsSetFrom())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_FROM, request.From.ToString());
+
+                if (request.IsSetTo())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_TO, request.To.ToString());
+
+                if (request.IsSetQuery())
+                    sReq.Parameters.Add(LogConsts.PARAMETER_QUERY, request.Query);
+
+                ExecutionContext context = new ExecutionContext();
+                context.Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Get);
+                context.Credentials = new ServiceCredentials(this.AccessKeyId, this.AccessKey);
+
+                using (ServiceResponse response = serviceClient.Send(sReq, context))
+                {
+                    LogClientTools.ResponseErrorCheck(response, context.Credentials);
+                    JArray body = LogClientTools.ParserResponseToJArray(response.Content);
+                    GetHistogramsResponse res = new GetHistogramsResponse(response.Headers, body);
+                    return res;
+                }
             }
         }
 

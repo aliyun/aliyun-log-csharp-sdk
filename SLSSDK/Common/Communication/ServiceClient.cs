@@ -56,7 +56,6 @@ namespace Aliyun.Api.LOG.Common.Communication
         public ServiceResponse Send(ServiceRequest request, ExecutionContext context)
         {
             Debug.Assert(request != null);
-
             SignRequest(request, context);
             ServiceResponse response = SendCore(request, context);
             HandleResponse(response, context.ResponseHandlers);

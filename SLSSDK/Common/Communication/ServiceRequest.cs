@@ -11,6 +11,7 @@ using System.IO;
 using System.Text;
 
 using Aliyun.Api.LOG.Common.Utilities;
+using System.Net;
 
 namespace Aliyun.Api.LOG.Common.Communication
 {
@@ -38,7 +39,9 @@ namespace Aliyun.Api.LOG.Common.Communication
         /// Gets or sets the HTTP method.
         /// </summary>
         public HttpMethod Method { get; set; }
-        
+
+        public HttpWebRequest HttpRequest { get; set; }
+
         /// <summary>
         /// Gets the dictionary of the request parameters.
         /// </summary>
@@ -144,6 +147,14 @@ namespace Aliyun.Api.LOG.Common.Communication
                 {
                     Content.Close();
                     Content = null;
+                }
+                if (HttpRequest != null)
+                {
+                    // force close connection group
+                    //Console.WriteLine(HttpRequest.ConnectionGroupName + "[]" + HttpRequest.ConnectionGroupName.Length.ToString() + "[]" + HttpRequest.ServicePoint.CurrentConnections.ToString());
+                    HttpRequest.ServicePoint.CloseConnectionGroup(HttpRequest.ConnectionGroupName);
+                    HttpRequest.Abort();
+                    HttpRequest = null;
                 }
                 _disposed = true;
             }   
