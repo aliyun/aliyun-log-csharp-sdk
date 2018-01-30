@@ -10,7 +10,6 @@ using Aliyun.Api.LOG.Common.Utilities;
 using Aliyun.Api.LOG.Data;
 using Aliyun.Api.LOG.Request;
 using Aliyun.Api.LOG.Response;
-using Aliyun.Api.SLS.Response;
 using System;
 using System.Collections.Generic;
 using System.Linq;
