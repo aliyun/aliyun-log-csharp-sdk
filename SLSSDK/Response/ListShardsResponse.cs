@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Aliyun.Api.SLS.Response
+namespace Aliyun.Api.LOG.Response
 {
     public class ListShardsResponse: LogResponse
     {

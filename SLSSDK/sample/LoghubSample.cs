@@ -3,7 +3,6 @@ using Aliyun.Api.LOG.Data;
 using Aliyun.Api.LOG.Request;
 using Aliyun.Api.LOG.Response;
 using Aliyun.Api.LOG.Utilities;
-using Aliyun.Api.SLS.Response;
 using System;
 using System.Collections.Generic;
 using System.IO;
