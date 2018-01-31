@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLSSDK40", "SLSSDK\SLSSDK40
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SLSSDK40Test", "SLSSDK40Test\SLSSDK40Test.csproj", "{DF3F2C8B-0D0A-41D0-B862-3A36DEFD97A1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LOGSDKSample", "LOGSDKSample\LOGSDKSample.csproj", "{10584CC5-EB33-4B68-8DE9-085694DEFEC6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -14,7 +14,7 @@ namespace Aliyun.Api.LOG.Common.Utilities
     /// <summary>
     /// Description of DateUtils.
     /// </summary>
-    internal static class DateUtils
+    public static class DateUtils
     {
         private static DateTime _1970StartDateTime = TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1, 0, 0, 0, 0));
         private const string _rfc822DateFormat = "ddd, dd MMM yyyy HH:mm:ss \\G\\M\\T";
@@ -55,6 +55,20 @@ namespace Aliyun.Api.LOG.Common.Utilities
         {
             return dt.ToUniversalTime().ToString(_iso8601DateFormat,
                                CultureInfo.CreateSpecificCulture("en-US"));
+        }
+
+        /// <summary>
+        /// convert time stamp to DateTime.
+        /// </summary>
+        /// <param name="timeStamp">seconds</param>
+        /// <returns></returns>
+        public static DateTime GetDateTime(uint timeStamp)
+        {
+            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+            long lTime = ((long)timeStamp * System.TimeSpan.TicksPerSecond);
+            System.TimeSpan toNow = new System.TimeSpan(lTime);
+            DateTime targetDt = dtStart.Add(toNow);
+            return targetDt;
         }
 
         public static uint TimeSpan() { 

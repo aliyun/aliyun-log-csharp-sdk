@@ -1,11 +1,3 @@
-# Aliyun LOG SDK FOR csharp
-
-- [阿里云LOG官方网站](https://www.aliyun.com/product/sls/)
-- [阿里云LOG官方论坛](https://yq.aliyun.com/groups/50)
-- 阿里云官方技术支持：[提交工单](https://workorder.console.aliyun.com/#/ticket/createIndex)
-
-# 使用例子如下：
-```
 using Aliyun.Api.LOG.Common.Utilities;
 using Aliyun.Api.LOG.Data;
 using Aliyun.Api.LOG.Request;
@@ -100,5 +92,3 @@ namespace Aliyun.Api.LOG.sample
         }
     }
 }
-
-```
