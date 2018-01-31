@@ -280,16 +280,18 @@ namespace Aliyun.Api.LOG.Common.Communication
             webRequest.KeepAlive = false;
             webRequest.ServicePoint.ConnectionLeaseTimeout = 5000;
             webRequest.ServicePoint.MaxIdleTime = 5000;
-            //webRequest.ReadWriteTimeout = 100000000;
             webRequest.ServicePoint.ConnectionLimit = 1000;
             webRequest.ServicePoint.Expect100Continue = false;
-            //webRequest.ServicePoint.CloseConnectionGroup();
+            // Generate GUID for connection group name, force close it when request is done.
+            webRequest.ConnectionGroupName = Guid.NewGuid().ToString();
+
             using (var requestStream = webRequest.GetRequestStream())
             {
                 data.WriteTo(requestStream, webRequest.ContentLength);
                 data.Seek(0, SeekOrigin.Begin);
                 requestStream.Flush();
                 requestStream.Close();
+                
             }
             data.Close();
             data.Dispose();

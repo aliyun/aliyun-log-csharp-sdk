@@ -150,6 +150,9 @@ namespace Aliyun.Api.LOG.Common.Communication
                 }
                 if (HttpRequest != null)
                 {
+                    // force close connection group
+                    //Console.WriteLine(HttpRequest.ConnectionGroupName + "[]" + HttpRequest.ConnectionGroupName.Length.ToString() + "[]" + HttpRequest.ServicePoint.CurrentConnections.ToString());
+                    HttpRequest.ServicePoint.CloseConnectionGroup(HttpRequest.ConnectionGroupName);
                     HttpRequest.Abort();
                     HttpRequest = null;
                 }

@@ -17,7 +17,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
-using Aliyun.Api.SLS.Response;
 
 namespace Aliyun.Api.LOG
 {
