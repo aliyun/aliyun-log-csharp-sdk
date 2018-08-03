@@ -152,8 +152,11 @@ namespace Aliyun.Api.LOG.Utilities
             List<KeyValuePair<string, string>> headerLst = new List<KeyValuePair<string, string>>();
             foreach (KeyValuePair<string, string> pair in headers)
             {
-                if (pair.Key.StartsWith("x-log-") && pair.Key.CompareTo(LogConsts.NAME_HEADER_DATE) != 0)
+                if ((pair.Key.StartsWith("x-log-") && pair.Key.CompareTo(LogConsts.NAME_HEADER_DATE) != 0)
+                    || pair.Key.StartsWith("x-acs-"))
+                {
                     headerLst.Add(new KeyValuePair<String, String>(pair.Key.Trim().ToLower(), pair.Value.Trim()));
+                }
             }
             headerLst.Sort(new KeyValueComparer());
             StringBuilder reqUri = new StringBuilder();
