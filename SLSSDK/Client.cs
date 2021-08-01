@@ -17,6 +17,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
+using Aliyun.Api.LOG.async;
+using ExecutionContext = Aliyun.Api.LOG.Common.Communication.ExecutionContext;
 
 namespace Aliyun.Api.LOG
 {
@@ -92,6 +96,8 @@ namespace Aliyun.Api.LOG
             }
         }
 
+        private readonly NotifyDataBuffer<PutLogsParameters> _putLogRequestBuffer;
+
         /// <summary>
         /// Construct the sls client with accessId, accessKey and server address, 
         /// all other parameters will be set to default value
@@ -114,6 +120,9 @@ namespace Aliyun.Api.LOG
             serviceClient = ServiceClient.Create(new ClientConfiguration());
             serviceClient.Configuration.ConnectionTimeout = LogConsts.DEFAULT_SLS_CONNECT_TIMEOUT;
             serviceClient.Configuration.ReadWriteTimeout = LogConsts.DEFAULT_SLS_READWRT_TIMEOUT;
+            
+            _putLogRequestBuffer = NotifyDataBuffer<PutLogsParameters>.Builder<PutLogsParameters>.newBuilder()
+                .withConsumer(new PutLogsDataConsumer(serviceClient)).withScheduleConsumer(60 * 1000).build();
         }
 
         /// <summary>
@@ -138,6 +147,9 @@ namespace Aliyun.Api.LOG
             serviceClient = ServiceClient.Create(new ClientConfiguration());
             serviceClient.Configuration.ConnectionTimeout = LogConsts.DEFAULT_SLS_CONNECT_TIMEOUT;
             serviceClient.Configuration.ReadWriteTimeout = LogConsts.DEFAULT_SLS_READWRT_TIMEOUT;
+            
+            _putLogRequestBuffer = NotifyDataBuffer<PutLogsParameters>.Builder<PutLogsParameters>.newBuilder()
+                .withConsumer(new PutLogsDataConsumer(serviceClient)).withScheduleConsumer(60 * 1000).build();
         }
         public GetCursorResponse GetCursor(GetCursorRequest request)
         {
@@ -265,14 +277,60 @@ namespace Aliyun.Api.LOG
                 }
             }
         }
-     
-        /// <summary>
-        /// put logs into sls server
-        /// </summary>
-        /// <param name="request">The request to put logs </param>
-        /// <exception>LogException</exception>
-        /// <returns>The response to put logs</returns>
-        public PutLogsResponse PutLogs(PutLogsRequest request) 
+
+        public Task<PutLogsResponse> PutLogsAsync(PutLogsRequest request)
+        {
+            return Task.Factory.StartNew(()=> PutLogs(request, buildLogGroup(request)));
+        }
+        
+        public void PutLogsAsync(PutLogsRequest request, PutLogsResponseListener listener)
+        {
+            var logGroup = buildLogGroup(request);
+                
+            if (logGroup.LogsCount > LogConsts.LIMIT_LOG_COUNT)
+                throw new LogException("InvalidLogSize", "logItems' length exceeds maximum limitation： " + LogConsts.LIMIT_LOG_COUNT + " lines.");
+            if(logGroup.SerializedSize > LogConsts.LIMIT_LOG_SIZE)
+                throw new LogException("InvalidLogSize", "logItems' size exceeds maximum limitation: " + LogConsts.LIMIT_LOG_SIZE + " byte.");
+            using (ServiceRequest sReq = new ServiceRequest())
+            {
+                sReq.Method = HttpMethod.Post;
+                sReq.Endpoint = BuildReqEndpoint(request);
+
+                //use empty string to replace Logstore if not set by user explicitly
+                var logstore = request.IsSetLogstore() ? request.Logstore : String.Empty;
+                sReq.ResourcePath = LogConsts.RESOURCE_LOGSTORES + LogConsts.RESOURCE_SEPARATOR + logstore;
+
+                FillCommonHeaders(sReq);
+                FillCommonParameters(sReq);
+                sReq.Headers.Add(LogConsts.NAME_HEADER_CONTENTTYPE, LogConsts.PBVALUE_HEADER_CONTENTTYPE);
+                var logBytes = logGroup.ToByteArray();
+                sReq.Headers[LogConsts.NAME_HEADER_BODYRAWSIZE] = logBytes.Length.ToString();
+                sReq.Headers.Add(LogConsts.NAME_HEADER_COMPRESSTYPE, LogConsts.VALUE_HEADER_COMPRESSTYPE_LZ4);
+                logBytes = LogClientTools.CompressToLz4(logBytes);
+                sReq.Headers.Add(LogConsts.NAME_HEADER_MD5, LogClientTools.GetMd5Value(logBytes));
+                sReq.Content = new MemoryStream(logBytes);
+
+                var context = new ExecutionContext
+                {
+                    Signer = new LogRequestSigner(sReq.ResourcePath, HttpMethod.Post),
+                    Credentials = new ServiceCredentials(AccessKeyId, AccessKey)
+                };
+
+                try
+                {
+                    _putLogRequestBuffer.save(new PutLogsParameters(sReq, context, listener));
+                }
+                catch (Exception e)
+                {
+                    if (e.InnerException is BufferFullException)
+                    {
+                        throw new LogException("BufferFull", "The LogItem buffer is full");
+                    }
+                }
+            }
+        }
+        
+        private LogGroup buildLogGroup(PutLogsRequest request)
         {
             LogGroup.Builder lgBuilder = LogGroup.CreateBuilder();
             
@@ -301,7 +359,18 @@ namespace Aliyun.Api.LOG
                 }
             }
 
-            return PutLogs(request, lgBuilder.Build());
+            return lgBuilder.Build();
+        }
+        
+        /// <summary>
+        /// put logs into sls server
+        /// </summary>
+        /// <param name="request">The request to put logs </param>
+        /// <exception>LogException</exception>
+        /// <returns>The response to put logs</returns>
+        public PutLogsResponse PutLogs(PutLogsRequest request) 
+        {
+            return PutLogs(request, buildLogGroup(request));
         }
 
         internal PutLogsResponse PutLogs(PutLogsRequest request, LogGroup logGroup)

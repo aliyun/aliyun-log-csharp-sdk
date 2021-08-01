@@ -82,6 +82,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="async\buffer40\AbstractDataBuffer.cs" />
+    <Compile Include="async\BufferFullException.cs" />
+    <Compile Include="async\DataBuffer.cs" />
+    <Compile Include="async\DataConsumer.cs" />
+    <Compile Include="async\Listener.cs" />
+    <Compile Include="async\NoopConsumer.cs" />
+    <Compile Include="async\NoopListener.cs" />
+    <Compile Include="async\PutLogsResponseListener.cs" />
+    <Compile Include="async\StdOutListener.cs" />
+    <Compile Include="async\NotifyDataBuffer.cs" />
+    <Compile Include="async\PutLogsDataConsumer.cs" />
     <Compile Include="Common\Authentication\HmacSHA1Signature.cs" />
     <Compile Include="Common\Authentication\IRequestSigner.cs" />
     <Compile Include="Common\Authentication\ServiceCredentials.cs" />
@@ -155,8 +166,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(ProjectDir)..\3rdParties\zlib\net40\zlib32.dll" "$(TargetDir)"
-copy "$(ProjectDir)..\3rdParties\zlib\net40\zlib64.dll" "$(TargetDir)"</PostBuildEvent>
+    <PostBuildEvent>cp "$(ProjectDir)..\3rdParties\zlib\net40\zlib32.dll" "$(TargetDir)"
+cp "$(ProjectDir)..\3rdParties\zlib\net40\zlib64.dll" "$(TargetDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
