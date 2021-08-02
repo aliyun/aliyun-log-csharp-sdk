@@ -43,24 +43,23 @@ namespace Aliyun.Api.LOG.async
         {
             while (parameters.retryTimes < _maxRetryTime)
             {
-                using (var response = _serviceClient.Send(parameters._sReq, parameters._context))
+                try
                 {
-                    if ((int) response.StatusCode < 500)
+                    using (var response = _serviceClient.Send(parameters._sReq, parameters._context))
                     {
-                        try
+                        if ((int) response.StatusCode < 500)
                         {
                             parameters._listener.onResponded(new PutLogsResponse(response.Headers));
+                            break;
                         }
-                        catch (Exception)
-                        {
-                            // do nothing
-                        }
-
-                        break;
                     }
-
-                    Thread.Sleep(generateRetryTimes(++parameters.retryTimes));
                 }
+                catch (Exception)
+                {
+                    // do nothing
+                }
+
+                Thread.Sleep(generateRetryTimes(++parameters.retryTimes));
             }
         }
     }
