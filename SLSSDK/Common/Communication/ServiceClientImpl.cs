@@ -278,7 +278,15 @@ namespace Aliyun.Api.LOG.Common.Communication
             userSetContentLength : streamLength;
 
             webRequest.KeepAlive = false;
-            webRequest.ServicePoint.ConnectionLeaseTimeout = 5000;
+            try
+            {
+                webRequest.ServicePoint.ConnectionLeaseTimeout = 5000;
+            }
+            catch (Exception e)
+            {
+             // https://github.com/dotnet/standard/issues/642
+            }
+
             webRequest.ServicePoint.MaxIdleTime = 5000;
             webRequest.ServicePoint.ConnectionLimit = 1000;
             webRequest.ServicePoint.Expect100Continue = false;
