@@ -73,6 +73,12 @@
   <ItemGroup>
     <Folder Include="Resources\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SLSSDK\SLSSDK40.csproj">
+      <Project>{4dbae4c0-1b9a-4bd0-a9d3-8029ae319287}</Project>
+      <Name>SLSSDK40</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
